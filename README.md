@@ -1,5 +1,5 @@
 
-# 🛠️ Projeto Django - CD MDF Móveis
+# 🛠️ Projeto Django - Gestão de Frota
 
 Este é um sistema desenvolvido em **Django** para gerenciar dados de um centro de distribuição. O sistema oferece funcionalidades de CRUD, controle de usuários e diversas outras interações de gerenciamento.
 
