@@ -1,0 +1,99 @@
+<!-- Modal filtro de Veiculos -->
+<div class="modal fade" id="modalFiltro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Filtro de Veículos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>      
+          <form action="{% url 'lista_veiculos' %}" method="POST">
+            <div class="modal-body">
+              {% csrf_token %}
+              <div class="mb-3 col-md-4">
+                <label for="filtro-situacao" class="form-label">Situação</label>
+                <select name="filtro-situacao" id="filtro-situacao" class="form-select">
+                    <option value="">Todos</option>
+                    {% for situacao_valor, situacao_titulo in situacoes %}
+                        <option value="{{situacao_valor}}" {% if situacao_valor == filtro_situacao %}selected{% endif %}>{{situacao_titulo}}</option>
+                    {% endfor %}
+                </select>
+              </div>           
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="filtro-placa" class="form-label">Placa</label>
+                    <input type="text" class="form-control" id="filtro-placa" name="filtro-placa" maxlength="7" value="{{filtro_placa}}">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="filtro-marca" class="form-label">Marca</label>
+                    <input type="text" class="form-control" id="filtro-marca" name="filtro-marca" value="{{filtro_marca}}">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="filtro-modelo" class="form-label">Modelo</label>
+                    <input type="text" class="form-control" id="filtro-modelo" name="filtro-modelo" value="{{filtro_modelo}}">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="filtro-ano" class="form-label">Ano</label>
+                    <input type="text" class="form-control" id="filtro-ano" name="filtro-ano" value="{{filtro_ano}}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="filtro-porte" class="form-label">Porte</label>
+                    <select name="filtro-porte" id="filtro-porte" class="form-select" >
+                      <option value="">Todos</option>
+                      {% for porte_valor, porte_titulo in portes %}
+                        <option value="{{porte_valor}}" {% if porte_valor == filtro_porte %}selected{% endif %}>{{porte_titulo}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="combustivel" class="form-label">Combustível</label>
+                    <select name="filtro-combustivel" id="filtro-combustivel" class="form-select" >
+                      <option value="">Todos</option>
+                      {% for combustivel in combustiveis %}
+                        <option value="{{combustivel.id}}" {% if combustivel.id == filtro_combustivel %}selected{% endif %}>{{combustivel.descricao}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="grupo_veiculo" class="form-label">Grupo</label>
+                    <select name="filtro-grupo_veiculo" id="filtro-grupo_veiculo" class="form-select" >
+                      <option value="">Todos</option>
+                      {% for grupo in grupos_veiculos %}
+                        <option value="{{grupo.id}}" {% if grupo.id == filtro_grupo_veiculo %}selected{% endif %}>{{grupo.descricao}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="filtro-chassi" class="form-label">Chassi</label>
+                <input type="text" id="filtro-chassi" name="filtro-chassi" class="form-control"  placeholder="Insira o chassi do veículo" value="{{filtro_chassi}}">
+              </div>
+              <div class="mb-3">
+                <label for="filtro-renavam" class="form-label">Renavam</label>
+                <input type="text" id="filtro-renavam" name="filtro-renavam" class="form-control"  placeholder="Insira o Renavam do veículo" value="{{filtro_renavam}}">
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="limparFiltros" name="limparFiltros" onclick="window.location.href='{% url 'lista_veiculos' %}'">Limpar Filtros</button>
+                <input type="submit" value="Aplicar" class="btn btn-primary">
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,114 @@
+<!-- Modal Tabela de Departamentos -->
+<div class="modal fade departamentos-modal-lg" id="ModalDepartamentos" tabindex="-1" aria-labelledby="myLargeModalDepartamentos" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="TituloModalCentralizado">Departamentos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <div class="d-flex mb-3">
+                  <button type="button" id="btnCadastrarDepartamento" class="btn btn-primary btn-sm ms-auto" onclick="openModal('#ModalDepartamentos', '#cadDepartamentos')">
+                      Cadastrar
+                  </button>
+              </div>
+              <table id="departamentos" class="table table-hover table-bordered display" style="width: 100%;">
+                  <thead>
+                      <tr>
+                          <th scope="col" class="col-md-10">Descrição</th>
+                          <th scope="col">Ações</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% if departamentos %}
+                          {% for departamento in departamentos %}
+                              <tr>
+                                  <td>{{ departamento.descricao }}</td>
+                                  <td>
+                                      <a href="#" class="fa-solid fa-pen-to-square fa-lg me-3" onclick="pegar_dados('{{ departamento.id }}', '{{ departamento.descricao }}'); openModal('#ModalDepartamentos', '#editDepartamentos')"></a>
+                                      <a href="#" class="fa-solid fa-trash fa-lg" onclick="pegar_dados('{{ departamento.id }}', '{{ departamento.descricao }}'); openModal('#ModalDepartamentos', '#delDepartamentos')"></a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Cadastro de Departamentos -->
+<div class="modal fade cadDepartamentos-modal-sm" id="cadDepartamentos" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Cadastrar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'novo_departamento' %}" method="POST">
+              {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoDepartamento">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoDepartamento" name="descricaoDepartamento" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Edição de Departamentos -->
+<div class="modal fade editDepartamentos-modal-sm" id="editDepartamentos" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Atualização Cadastral</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'editar_departamento' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" id="idDepartamentoEdit" name="idDepartamentoEdit">
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoDepartamentoEdit">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoDepartamentoEdit" name="descricaoDepartamentoEdit" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Atualizar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Exclusão de Departamentos -->
+<div class="modal fade" id="delDepartamentos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Exclusão de Departamento</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <p>Deseja realmente excluir o Departamento <strong id="descricaoDepartamentoDel"></strong>?</p>
+          </div>
+          <div class="modal-footer">
+              <form action="{% url 'excluir_departamento' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" id="idDepartamentoDel" name="idDepartamentoDel">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

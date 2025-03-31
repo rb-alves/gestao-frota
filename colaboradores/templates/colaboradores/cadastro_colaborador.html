@@ -1,0 +1,56 @@
+<!-- Modal Cadastro de Colaboradores -->
+<div class="modal fade" id="modalColaborador" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="colaboradorCadastroLabel">Cadastro de Colaboradores</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <form action="{% url 'novo_colaborador' %}" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nome" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="nome" name="nome" required placeholder="Digite o nome do colaborador">
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="matricula" class="form-label">Matrícula</label>
+              <input type="text" class="form-control" id="matricula" name="matricula" required placeholder="Insira a matrícula">
+            </div>
+            <div class="col">
+              <label for="cpf" class="form-label">CPF</label>
+              <input type="text" class="form-control" id="cpf" name="cpf" required placeholder="___.___.___-__">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="cargo" class="form-label">Cargo</label>
+            <select class="form-select" id="cargo" name="cargo" required>
+              <option value="">Selecione...</option>
+              {% for cargo in cargos %}
+              <option value="{{ cargo.id }}">{{ cargo.descricao }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="departamento" class="form-label">Departamento</label>
+            <select class="form-select" id="departamento" name="departamento" required>
+              <option value="">Selecione...</option>
+              {% for departamento in departamentos %}
+              <option value="{{ departamento.id }}">{{ departamento.descricao }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="data_admissao" class="form-label">Admissão</label>
+            <input type="date" class="form-control" id="data_admissao" name="data_admissao" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <input type="submit" value="Cadastrar" class="btn btn-success">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

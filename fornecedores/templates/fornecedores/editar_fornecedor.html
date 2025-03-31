@@ -1,0 +1,56 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Editar Fornecedor
+{% endblock page_title %}
+
+{% block pagina_fornecedores %}
+    active
+{% endblock pagina_fornecedores %}
+
+{% block content %} 
+
+<h1 id="titulo-pagina" class="mt-4">Fornecedor</h1>
+
+    <div id="tabelaContainer" class="painel mt-4">
+        <form action="{% url 'editar_fornecedor' fornecedor.id %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="nome" name="nome" value="{{ fornecedor.nome }}" required placeholder="Digite o nome do fornecedor">
+            </div>
+            <div class="mb-3">
+                <label for="razao_social" class="form-label">Razão Social</label>
+                <input type="text" class="form-control" id="razao_social" name="razao_social" value="{{ fornecedor.razao_social }}" placeholder="Digite a razão Social">
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="cnpj" class="form-label">CNPJ</label>
+                    <input type="text" class="form-control" id="cnpj" name="cnpj" value="{{ fornecedor.cnpj }}" placeholder="__.___.___/____-__">
+                </div>
+                <div class="col">
+                    <label for="telefone" class="form-label">Telefone</label>
+                    <input type="text" class="form-control" id="telefone" name="telefone" value="{{ fornecedor.telefone }}" placeholder="(__) _____-____">
+                </div>
+                <div class="col">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ fornecedor.email }}" placeholder="Insira o email do fornecedor">
+                </div>
+                <div class="col">
+                    <label for="especialidade" class="form-label">Especialidade</label>
+                    <select name="especialidade" id="especialidade" class="form-select">
+                        <option value="">Selecione...</option>
+                        {% for especialidade in especialidades %}
+                            <option value="{{ especialidade.id }}" {% if fornecedor.especialidade.id == especialidade.id %}selected{% endif %}>{{ especialidade.descricao }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'lista_fornecedores' %}" class="btn btn-secondary me-2">Voltar</a>
+                <input type="submit" value="Atualizar Cadastro" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+    
+{% endblock content %}

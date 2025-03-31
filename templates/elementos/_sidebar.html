@@ -1,0 +1,71 @@
+{% load static %}
+<div class="d-flex">
+  <button class="toggle-btn" type="button">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <div class="sidebar-logo toggle-btn">
+      <a href="{% url 'home' %}">
+        <!--Logo da pagina de login e recuperação-->
+        <img src="#" alt="logo" width="65px">
+      </a>
+  </div>
+</div>
+<ul class="sidebar-nav">
+    <li class="sidebar-item">
+        <a href="{% url 'lista_cadastros' %}" class="sidebar-link">
+            <i class="fa-solid fa-gears"></i>
+            <span>Cadastros</span>
+        </a>
+    </li>  
+    <li class="sidebar-item">
+        <a href="{% url 'colaboradores_lista' %}" class="sidebar-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Colaboradores</span>
+        </a>
+    </li>  
+    <li class="sidebar-item">
+        <a href="{% url 'lista_fornecedores' %}" class="sidebar-link">
+            <i class="fa-solid fa-handshake"></i>
+            <span>Fornecedores</span>
+        </a>
+    </li>  
+    <li class="sidebar-item">
+        <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+            data-bs-target="#frota" aria-expanded="false" aria-controls="frota">
+            <i class="fa-solid fa-truck"></i>
+            <span>Frota</span>
+        </a>
+        <ul id="frota" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+            <li class="sidebar-item">
+                <a href="{% url 'lista_veiculos' %}" class="sidebar-link">Veículos</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="{% url 'lista_maquinas' %}" class="sidebar-link">Máquinas</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">Manutenção de Veículos</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">Manutenção de Máquinas</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">Manutenção Geral</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">Segurança</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">Multas</a>
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">Abastecimentos</a>
+            </li>
+        </ul>
+    </li>
+</ul>
+<div class="sidebar-footer">
+  <a href="#" data-bs-toggle="modal" data-bs-target="#modalLogout" class="sidebar-link">
+    <i class="fa-solid fa-right-from-bracket"></i>
+      <span>Sair</span>
+  </a>
+</div>

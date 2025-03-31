@@ -1,0 +1,114 @@
+<!-- Modal Tabela de Causas das Manutenções -->
+<div class="modal fade causasManut-modal-lg" id="ModalCausas" tabindex="-1" aria-labelledby="myLargeModalCausas" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="TituloModalCentralizado">Causas das Manutenções</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <div class="d-flex mb-3">
+                  <button type="button" id="btnCadastrarCausa" class="btn btn-primary btn-sm ms-auto" onclick="openModal('#ModalCausas', '#cadCausas')">
+                      Cadastrar
+                  </button>
+              </div>
+              <table id="causas" class="table table-hover table-bordered display" style="width: 100%;">
+                  <thead>
+                      <tr>
+                          <th scope="col" class="col-md-10">Descrição</th>
+                          <th scope="col">Ações</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% if causas %}
+                          {% for causa in causas %}
+                              <tr>
+                                  <td>{{causa.descricao}}</td>
+                                  <td>
+                                      <a href="#" class="fa-solid fa-pen-to-square fa-lg me-3" onclick="pegar_dados('{{causa.id}}', '{{causa.descricao}}'); openModal('#ModalCausas', '#editCausas')"></a>
+                                      <a href="#" class="fa-solid fa-trash fa-lg" onclick="pegar_dados('{{causa.id}}', '{{causa.descricao}}');openModal('#ModalCausas', '#delCausas')"></a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Cadastro de Causas de Manutenções -->
+<div class="modal fade cadCausas-modal-sm" id="cadCausas" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Cadastrar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'nova_causa' %}" method="POST">
+              {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoCausa">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoCausa" name="descricaoCausa" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Edição de Causas das Manutenções -->
+<div class="modal fade editCausas-modal-sm" id="editCausas" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Atualização Cadastral</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'editar_causa' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" id="idCausaEdit" name="idCausaEdit">
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoCausaEdit">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoCausaEdit" name="descricaoCausaEdit" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Atualizar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Exclusão de Causas -->
+<div class="modal fade" id="delCausas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Exclusão de Causas</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <p>Deseja realmente excluir a causa <strong id="descricaoCausaDel"></strong>?</p>
+          </div>
+          <div class="modal-footer">
+              <form action="{% url 'excluir_causa' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" id="idCausaDel" name="idCausaDel">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

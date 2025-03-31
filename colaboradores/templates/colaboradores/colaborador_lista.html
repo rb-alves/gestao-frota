@@ -1,0 +1,82 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+  Colaboradores
+{% endblock page_title %}
+
+
+{% block content %}
+
+
+  <h1 id="titulo-pagina" class="mt-4">Colaboradores</h1>
+
+
+  <div class="d-flex justify-content-end align-items-center gap-2 mb-2">
+    <!-- Botão de Filtrar -->
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFiltro">
+      <i class="fa-solid fa-filter"></i> Filtrar
+    </button>
+    <!-- Botão de Cadastrar -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalColaborador">
+      Cadastrar
+    </button>
+  </div>
+
+  {% include "colaboradores/card.html" %}
+
+  <div id="tabelaContainer" class="table-responsive">
+    <table id="colaboradores" class="table table-hover" style="width:100%;">
+      <thead>
+        <tr>
+          <th scope="col">Matrícula</th>
+          <th scope="col">Nome</th>
+          <th scope="col" class="col-cpf">CPF</th>
+          <th scope="col">Cargo</th>
+          <th scope="col">Departamento</th>
+          <th scope="col">Situação</th>
+          <th scope="col" class="data-br">Admissão</th>
+          <th scope="col" class="data-br">Desligamento</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if colaboradores %}
+          {% for colaborador in colaboradores %}
+            <tr>
+              <td>{{ colaborador.matricula }}</td>
+              <td >{{ colaborador.nome }}</td>
+              <td >{{ colaborador.cpf }}</td>
+              <td>{{ colaborador.cargo.descricao }}</td>
+              <td>{{ colaborador.departamento.descricao }}</td>
+              <td>{{ colaborador.situacao }}</td>
+              <td>{{ colaborador.admissao|date:"d/m/Y" }}</td>
+              <td>{{ colaborador.desligamento|default_if_none:"-"|date:"d/m/Y" }}</td>
+              <td>
+
+                <div class="dropdown">
+                  <i class="fa-solid fa-edit" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'editar_colaborador' colaborador.id %}">Editar</a></li>
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir" onclick="pegar_dados_colaborador('{{colaborador.pk}}', '{{colaborador.nome}}')" >Excluir</a></li>
+                  </ul>
+                </div>
+
+              </td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  {% include "colaboradores/excluir_colaborador.html" %}
+  {% include "colaboradores/cadastro_colaborador.html" %}
+  {% include "colaboradores/filtro.html" %}
+
+{% endblock content %}
+
+
+
+
+
+

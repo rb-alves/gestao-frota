@@ -1,0 +1,77 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Máquinas
+{% endblock page_title %}
+
+{% block pagina_frota %}
+    active
+{% endblock pagina_frota %}
+
+
+{% block content %}
+
+    <h1 id="titulo-pagina" class="mt-4">Máquinas</h1>
+
+    <div class="d-flex justify-content-end align-items-center gap-2 mb-2">
+        <!-- Botão de Filtrar -->
+        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFiltro">
+        <i class="fa-solid fa-filter"></i> Filtrar
+        </button>
+        <!-- Botão de Cadastrar -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadMaquinas">
+        Cadastrar
+        </button>
+    </div>
+
+    <div id="tabelaContainer" class="mt-4 table-responsive">
+        <table id="maquinas" class="table table-hover" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th scope="col">Identificação</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Grupo</th>
+                    <th scope="col">Situação</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if maquinas %}
+                    {% for maquina in maquinas %}
+                        <tr>
+                            <td>{{maquina.identificacao}}</td>
+                            <td>{{maquina.modelo}}</td>
+                            <td>{{maquina.grupo_veiculo}}</td>
+                            <td>{{maquina.situacao}}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <i class="fa-solid fa-edit" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                      <li><a class="dropdown-item" href="{% url 'editar_maquina' maquina.id %}">Editar</a></li>
+                                      <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir" onclick="dados_maquinas_del('{{maquina.id}}', '{{maquina.identificacao}}')">Excluir</a></li>
+                                    </ul>
+                                  </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        {% include "frota/maquinas/cadastro_maquinas.html" %}
+    </div>
+
+    <div>
+        {% include "frota/maquinas/excluir_maquina.html" %}
+    </div>
+
+    <div>
+        {% include "frota/maquinas/filtro.html" %}
+    </div>
+
+
+{% endblock content %}
+
+

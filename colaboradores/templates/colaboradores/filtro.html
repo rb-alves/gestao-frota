@@ -1,0 +1,94 @@
+<!-- Modal Cadastro de Colaboradores -->
+<div class="modal fade" id="modalFiltro" tabindex="-1" aria-labelledby="filtroModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="filtroCadastroLabel">Filtro de Colaboradores</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <form id="formFiltros" method="POST" action="{% url 'colaboradores_lista' %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <label for="filtro-situacao" class="form-label">Situação</label>
+              <select class="form-select" id="filtro-situacao" name="filtro-situacao">
+                  <option value="">Todos</option>
+                  {% for situacao_valor, situacao_titulo in situacoes %}
+                      <option value="{{ situacao_valor }}" {% if situacao_valor == filtro_situacao %}selected{% endif %}>{{ situacao_titulo }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+            <div class="col">
+              <label for="filtro-nome" class="form-label">Nome</label>
+              <input type="text" class="form-control" id="filtro-nome" name="filtro-nome" value="{{filtro_nome}}" placeholder="Digite o nome do colaborador">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="filtro-matricula" class="form-label">Matrícula</label>
+              <input type="text" class="form-control" id="filtro-matricula" name="filtro-matricula"   value="{{filtro_matricula}}" placeholder="Insira a matrícula">
+            </div>
+            <div class="col">
+              <label for="filtro-cpf" class="form-label">CPF</label>
+              <input type="text" class="form-control" id="filtro-cpf" name="filtro-cpf" value="{{filtro_cpf}}"  placeholder="___.___.___-__">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="filtro-cargo" class="form-label">Cargo</label>
+            <select class="form-select" id="filtro-cargo" name="filtro-cargo" >
+              <option value="">Selecione...</option>
+              {% for cargo in cargos %}
+              <option value="{{ cargo.id }}" {% if cargo.id == filtro_cargo %}selected{% endif %}>{{ cargo.descricao }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="filtro-departamento" class="form-label">Departamento</label>
+            <select class="form-select" id="filtro-departamento" name="filtro-departamento" >
+              <option value="">Selecione...</option>
+              {% for departamento in departamentos %}
+              <option value="{{ departamento.id }}" {% if departamento.id == filtro_departamento %}selected{% endif %}>{{ departamento.descricao }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="row mb-3">
+              <div class="col">
+                  <div class="form-floating">
+                      <input type="date" class="form-control" id="filtro-data_admissao_inicial" name="filtro-data_admissao_inicial" value="{{filtro_data_admissao_inicial}}">
+                      <label for="filtro-data_admissao_inicial">Admissão Inicial</label>
+                  </div>
+              </div>
+              <div class="col">
+                  <div class="form-floating">
+                      <input type="date" class="form-control" id="filtro-data_admissao_final" name="filtro-data_admissao_final" value="{{filtro_data_admissao_final}}">
+                      <label for="filtro-ata_admissao_final">Admissão Final</label>
+                  </div>
+              </div>
+          </div>
+
+          <div class="row mb-3">
+              <div class="col">
+                  <div class="form-floating">
+                      <input type="date" class="form-control" id="filtro-data_desligamento_inicial" name="filtro-data_desligamento_inicial" value="{{filtro_data_desligamento_inicial}}">
+                      <label for="filtro-data_desligamento_inicial">Desligamento Inicial</label>
+                  </div>
+              </div>
+              <div class="col">
+                  <div class="form-floating">
+                      <input type="date" class="form-control" id="filtro-data_desligamento_final" name="filtro-data_desligamento_final" value="{{filtro_data_desligamento_final}}">
+                      <label for="filtro-data_desligamento_final">Desligamento Final</label>
+                  </div>
+              </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="limparFiltros" name="limparFiltros" onclick="window.location.href='{% url 'colaboradores_lista' %}'">Limpar Filtros</button>
+          <input type="submit" value="Aplicar" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

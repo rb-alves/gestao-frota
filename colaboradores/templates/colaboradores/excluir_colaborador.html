@@ -1,0 +1,22 @@
+<!-- Modal de Exclusão -->
+<div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exclusaoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exclusaoModalLabel">Exclusão de Colaborador</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Deseja realmente excluir o colaborador <strong id="nomeColaborador"></strong>?</p>
+      </div>
+      <div class="modal-footer">
+        <form action="{% url 'excluir_colaborador' %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" id="idColaborador" name="idColaborador">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-danger">Excluir</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<!-- Modal Tabela de Combustíveis -->
+<div class="modal fade combustiveis-modal-lg" id="Modalcombustiveis" tabindex="-1" aria-labelledby="myLargeModalcombustiveis" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="TituloModalCentralizado">Combustíveis</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <div class="d-flex mb-3">
+                  <button type="button" id="btnCadastrarcombustivel" class="btn btn-primary btn-sm ms-auto" onclick="openModal('#Modalcombustiveis', '#cadcombustiveis')">
+                      Cadastrar
+                  </button>
+              </div>
+              <table id="combustiveis" class="table table-hover table-bordered display" style="width: 100%;">
+                  <thead>
+                      <tr>
+                          <th scope="col" class="col-md-10">Descrição</th>
+                          <th scope="col">Ações</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% if combustiveis %}
+                          {% for combustivel in combustiveis %}
+                              <tr>
+                                  <td>{{ combustivel.descricao }}</td>
+                                  <td>
+                                      <a href="#" class="fa-solid fa-pen-to-square fa-lg me-3" onclick="pegar_dados('{{ combustivel.id }}', '{{ combustivel.descricao }}'); openModal('#Modalcombustiveis', '#editcombustiveis')"></a>
+                                      <a href="#" class="fa-solid fa-trash fa-lg" onclick="pegar_dados('{{ combustivel.id }}', '{{ combustivel.descricao }}'); openModal('#Modalcombustiveis', '#delcombustiveis')"></a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Cadastro de Combustível -->
+<div class="modal fade cadcombustiveis-modal-sm" id="cadcombustiveis" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Cadastrar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'novo_combustivel' %}" method="POST">
+              {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaocombustivel">Descrição</label>
+                      <input type="text" class="form-control" id="descricaocombustivel" name="descricaocombustivel" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Edição de Combustível -->
+<div class="modal fade editcombustiveis-modal-sm" id="editcombustiveis" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Atualização Cadastral</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'editar_combustivel' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" id="idcombustivelEdit" name="idcombustivelEdit">
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaocombustivelEdit">Descrição</label>
+                      <input type="text" class="form-control" id="descricaocombustivelEdit" name="descricaocombustivelEdit" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Atualizar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Exclusão de Combustível -->
+<div class="modal fade" id="delcombustiveis" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Exclusão de Combustível</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <p>Deseja realmente excluir o combustível <strong id="descricaocombustivelDel"></strong>?</p>
+          </div>
+          <div class="modal-footer">
+              <form action="{% url 'excluir_combustivel' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" id="idcombustivelDel" name="idcombustivelDel">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

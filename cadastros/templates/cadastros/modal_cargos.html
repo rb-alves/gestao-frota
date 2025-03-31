@@ -1,0 +1,114 @@
+<!-- Modal Tabela de Cargos -->
+<div class="modal fade cargos-modal-lg" id="ModalCargos" tabindex="-1" aria-labelledby="myLargeModalCargos" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="TituloModalCentralizado">Cargos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <div class="d-flex mb-3">
+                  <button type="button" id="btnCadastrarCargo" class="btn btn-primary btn-sm ms-auto" onclick="openModal('#ModalCargos', '#cadCargos')">
+                      Cadastrar
+                  </button>
+              </div>
+              <table id="cargos" class="table table-hover table-bordered display" style="width: 100%;">
+                  <thead>
+                      <tr>
+                          <th scope="col" class="col-md-10">Descrição</th>
+                          <th scope="col">Ações</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% if cargos %}
+                          {% for cargo in cargos %}
+                              <tr>
+                                  <td>{{cargo.descricao}}</td>
+                                  <td>
+                                      <a href="#" class="fa-solid fa-pen-to-square fa-lg me-3" onclick="pegar_dados('{{cargo.id}}', '{{cargo.descricao}}'); openModal('#ModalCargos', '#editCargos')"></a>
+                                      <a href="#" class="fa-solid fa-trash fa-lg" onclick="pegar_dados('{{cargo.id}}', '{{cargo.descricao}}');openModal('#ModalCargos', '#delCargos')"></a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Cadastro de Cargos -->
+<div class="modal fade cadCargos-modal-sm" id="cadCargos" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Cadastrar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'novo_cargo' %}" method="POST">
+              {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoCargo">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoCargo" name="descricaoCargo" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Edição de Cargos -->
+<div class="modal fade editCargos-modal-sm" id="editCargos" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Atualização Cadastral</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'editar_cargo' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" id="idCargoEdit" name="idCargoEdit">
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoCargoEdit">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoCargoEdit" name="descricaoCargoEdit" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Atualizar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Exclusão Cargos -->
+<div class="modal fade" id="delCargos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Exclusão de Cargo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <p>Deseja realmente excluir o cargo <strong id="descricaoCargoDel"></strong>?</p>
+          </div>
+          <div class="modal-footer">
+              <form action="{% url 'excluir_cargo' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" id="idCargoDel" name="idCargoDel">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

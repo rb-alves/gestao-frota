@@ -1,0 +1,90 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Veículos
+{% endblock page_title %}
+
+{% block pagina_frota %}
+    active
+{% endblock pagina_frota %}
+
+
+{% block content %}
+
+
+    <h1 id="titulo-pagina" class="mt-4">Veículos</h1>
+
+
+    <div class="d-flex justify-content-end align-items-center gap-2 mb-2">
+    <!-- Botão de Filtrar -->
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalFiltro">
+        <i class="fa-solid fa-filter"></i> Filtrar
+    </button>
+    <!-- Botão de Cadastrar -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCadVeiculos">
+        Cadastrar
+    </button>
+    </div>
+
+    <div id="tabelaContainer" class="mt-4 table-responsive">
+        <table id="veiculos" class="table table-hover" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Porte</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Ano</th>
+                    <th scope="col">Combust.</th>
+                    <th scope="col">Renavam</th>
+                    <th scope="col">Chassi</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Grupo</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if veiculos %}
+                        {% for veiculo in  veiculos %}
+                            <tr>
+                                <td>{{veiculo.placa}}</td>
+                                <td>{{veiculo.porte}}</td>
+                                <td>{{veiculo.modelo}}</td>
+                                <td>{{veiculo.marca}}</td>
+                                <td>{{veiculo.ano}}</td>
+                                <td>{{veiculo.combustivel}}</td>
+                                <td>{{veiculo.renavam}}</td>
+                                <td>{{veiculo.chassi}}</td>
+                                <td>{{veiculo.situacao}}</td>
+                                <td>{{veiculo.grupo_veiculo}}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <i class="fa-solid fa-edit" type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{% url 'editar_veiculo' veiculo.id %}">Editar</a></li>
+                                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalExcluir" onclick="dados_veiculos_del('{{veiculo.id}}', '{{veiculo.placa}}')" >Excluir</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        {% include 'frota/veiculos/cadastro_veiculos.html' %}
+    </div>
+
+    <div>
+        {% include "frota/veiculos/excluir_veiculo.html" %}
+    </div>
+
+    <div>
+        {% include "frota/veiculos/filtro.html" %}
+    </div>
+
+{% endblock content %}
+
+

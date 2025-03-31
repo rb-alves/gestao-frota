@@ -1,0 +1,111 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Editar Veículo
+{% endblock page_title %}
+
+{% block pagina_frota %}
+    active
+{% endblock pagina_frota %}
+
+{% block content %}
+
+  <h1 id="titulo-pagina" class="mt-4">Veículo</h1>
+
+
+    <div id="tabelaContainer" class="painel mt-4">
+        <form action="{% url 'editar_veiculo' veiculo.id %}" method="POST">
+          {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="placa" class="form-label">Placa</label>
+                    <input type="text" class="form-control" id="placa" name="placa" maxlength="7" required value="{{veiculo.placa}}">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="marca" class="form-label">Marca</label>
+                    <input type="text" class="form-control" id="marca" name="marca" required value="{{veiculo.marca}}">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="modelo" class="form-label">Modelo</label>
+                    <input type="text" class="form-control" id="modelo" name="modelo" required value="{{veiculo.modelo}}">
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="mb-3">
+                    <label for="ano" class="form-label">Ano</label>
+                    <input type="text" class="form-control" id="ano" name="ano" required value="{{veiculo.ano}}">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="porte" class="form-label">Porte</label>
+                    <select name="porte" id="porte" class="form-select" required>
+                      <option value="">Selecione...</option>
+                      {% for porte_valor, porte_titulo in portes %}
+                        <option value="{{porte_valor}}" {% if veiculo.porte == porte_valor %}selected{% endif %}>{{porte_titulo}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="combustivel" class="form-label">Combustível</label>
+                    <select name="combustivel" id="combustivel" class="form-select" required>
+                      <option value="">Selecione...</option>
+                      {% for combustivel in combustiveis %}
+                        <option value="{{combustivel.id}}" {% if veiculo.combustivel.id == combustivel.id %}selected{% endif %}>{{combustivel.descricao}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="grupo_veiculo" class="form-label">Grupo</label>
+                    <select name="grupo_veiculo" id="grupo_veiculo" class="form-select" required>
+                      <option value="">Selecione...</option>
+                      {% for grupo in grupos_veiculos %}
+                        <option value="{{grupo.id}}" {% if veiculo.grupo_veiculo.id == grupo.id %}selected{% endif %}>{{grupo.descricao}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="situacao" class="form-label">Situação</label>
+                    <select name="situacao" id="situacao" class="form-select" required>
+                      <option value="">Selecione...</option>
+                      {% for situacao_valor, situacao_titulo in situacoes %}
+                        <option value="{{situacao_valor}}" {% if veiculo.situacao == situacao_valor %}selected{% endif %}>{{situacao_titulo}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="chassi" class="form-label">Chassi</label>
+                <input type="text" id="chassi" name="chassi" class="form-control" required value="{{veiculo.chassi}}">
+              </div>
+              <div class="mb-3">
+                <label for="renavam" class="form-label">Renavam</label>
+                <input type="text" id="renavam" name="renavam" class="form-control" required value="{{veiculo.renavam}}">
+              </div>
+              <div class="d-flex justify-content-end">
+                <a href="{% url 'lista_veiculos' %}" class="btn btn-secondary me-2">Voltar</a>
+                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalExcluir" onclick="dados_veiculos_del('{{veiculo.id}}', '{{veiculo.placa}}')">Excluir</button>
+                <input type="submit" value="Atualizar Cadastro" class="btn btn-primary">
+              </div>
+        </form>        
+    </div>
+
+    <div>
+      {% include "frota/veiculos/excluir_veiculo.html" %}
+    </div>
+
+{% endblock content %}

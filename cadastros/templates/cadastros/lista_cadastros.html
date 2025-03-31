@@ -1,0 +1,101 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Cadastros
+{% endblock page_title %}
+
+{% block pagina_cadastros %}
+    active
+{% endblock pagina_cadastros %}
+
+{% block content %}
+
+    <h1 id="titulo-pagina" class="mt-4">Cadastros</h1>
+
+    <div id="tabelaContainer" class="mt-5 table-responsive">
+        <table id="cadastros" class="table table-hover" style="width:100%">
+            <thead>
+                <tr>
+                    <th scope="col" class="col-md-10">Descrição</th>
+                    <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cargos</td>
+                    <td>
+                        <a href="#" class="fa-solid fa-pen-to-square fa-lg" data-bs-toggle="modal" data-bs-target=".cargos-modal-lg"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Departamentos</td>
+                    <td>
+                        <a href="#" class="fa-solid fa-pen-to-square fa-lg" data-bs-toggle="modal" data-bs-target=".departamentos-modal-lg"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Especialidade dos Fornecedores</td>
+                    <td>
+                        <a href="#" class="fa-solid fa-pen-to-square fa-lg" data-bs-toggle="modal" data-bs-target=".espFornecedores-modal-lg"></a>
+                    </td>
+                </tr>       
+                <tr>
+                    <td>Grupo de Veículos</td>
+                    <td>
+                        <a href="#" class="fa-solid fa-pen-to-square fa-lg" data-bs-toggle="modal" data-bs-target=".grupoVeiculos-modal-lg"></a>
+                    </td>
+                </tr>       
+                <tr>
+                    <td>Combustíveis</td>
+                    <td>
+                        <a href="#" class="fa-solid fa-pen-to-square fa-lg" data-bs-toggle="modal" data-bs-target=".combustiveis-modal-lg"></a>
+                    </td>
+                </tr>       
+                <tr>
+                    <td>Causas das Manutenções</td>
+                    <td>
+                        <a href="#" class="fa-solid fa-pen-to-square fa-lg" data-bs-toggle="modal" data-bs-target=".causasManut-modal-lg"></a>
+                    </td>
+                </tr>       
+                <tr>
+                    <td>Tipos de Manutenções</td>
+                    <td>
+                        <a href="#" class="fa-solid fa-pen-to-square fa-lg" data-bs-toggle="modal" data-bs-target=".tipos-modal-lg"></a>
+                    </td>
+                </tr>       
+                <tr>
+                    <td>Centros de Custos</td>
+                    <td>
+                        <a href="#" class="fa-solid fa-pen-to-square fa-lg" data-bs-toggle="modal" data-bs-target=".centroCusto-modal-lg"></a>
+                    </td>
+                </tr>       
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        {% include "cadastros/modal_cargos.html" %}
+    </div>
+    <div>
+        {% include "cadastros/modal_departamentos.html" %}
+    </div>
+    <div>
+        {% include "cadastros/modal_espfornecedores.html" %}
+    </div>
+    <div>
+        {% include "cadastros/modal_grupo_veiculos.html" %}
+    </div>
+    <div>
+        {% include "cadastros/modal_combustiveis.html" %}
+    </div>
+    <div>
+        {% include "cadastros/modal_causas.html" %}
+    </div>
+    <div>
+        {% include "cadastros/modal_tipos.html" %}
+    </div>
+    <div>
+        {% include "cadastros/modal_centros_custos.html" %}
+    </div>
+
+{% endblock content %}

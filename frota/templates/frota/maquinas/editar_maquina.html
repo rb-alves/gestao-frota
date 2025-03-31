@@ -1,0 +1,56 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Editar Máquina
+{% endblock page_title %}
+
+{% block pagina_frota %}
+    active
+{% endblock pagina_frota %}
+
+{% block content %} 
+
+    <h1 id="titulo-pagina" class="mt-4">Máquina</h1>
+
+    <div id="tabelaContainer" class="painel mt-4">
+        <form action="{% url 'editar_maquina' maquina.id %}" method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="situacao" class="form-label">Situação</label>
+            <select name="situacao" id="situacao" class="form-select" required> 
+                {% for situacao_valor, situacao_titulo in situacoes %}
+                  <option value="{{situacao_valor}}" {% if maquina.situacao == situacao_valor %}selected{% endif %}>{{situacao_titulo}}</option>
+                {% endfor %}
+            </select>
+           </div>    
+          <div class="mb-3">
+            <label for="ident" class="form-label">Identificação</label>
+            <input type="text" class="form-control" id="ident" name="ident" required value="{{maquina.identificacao}}">
+          </div>
+          <div class="mb-3">
+            <label for="modelo" class="form-label">Modelo</label>
+            <input type="text" class="form-control" id="modelo" name="modelo" required value="{{maquina.modelo}}">
+          </div>
+          <div class="mb-3">
+            <label for="grupo_veiculo" class="form-label">Grupo</label>
+            <select name="grupo_veiculo" id="grupo_veiculo" class="form-select" required> 
+              <option value="">Selecione...</option>
+              {% for grupo in grupos %}
+                <option value="{{grupo.id}}" {% if maquina.grupo_veiculo.id == grupo.id %}selected{% endif %}>{{grupo.descricao}}</option>
+              {% endfor %}
+            </select>
+           </div>       
+           <div class="d-flex justify-content-end">
+            <a href="{% url 'lista_maquinas' %}" class="btn btn-secondary me-2">Voltar</a>
+            <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalExcluir" onclick="dados_maquinas_del('{{maquina.id}}', '{{maquina.identificacao}}')">Excluir</button>
+            <input type="submit" value="Atualizar Cadastro" class="btn btn-primary">
+          </div> 
+        </form>
+                
+    </div>
+
+    <div>
+      {% include "frota/maquinas/excluir_maquina.html" %}
+    </div>
+
+{% endblock content %}

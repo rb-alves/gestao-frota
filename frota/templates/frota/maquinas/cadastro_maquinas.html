@@ -1,0 +1,41 @@
+<!-- Modal Cadastro de Maquinas -->
+<div class="modal fade" id="modalCadMaquinas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cadastro de Máquinas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <form action="{% url 'nova_maquina' %}" method="POST">
+        <div class="modal-body">
+          <div>
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="ident" class="form-label">Identificação</label>
+              <input type="text" class="form-control" id="ident" name="ident" required placeholder="Insira a identificação da máquina">
+            </div>
+
+            <div class="mb-3">
+              <label for="modelo" class="form-label">Modelo</label>
+              <input type="text" class="form-control" id="modelo" name="modelo" required placeholder="Insira o modelo da máquina">
+            </div>
+
+            <div class="mb-3">
+              <label for="grupo_veiculo" class="form-label">Grupo</label>
+              <select name="grupo_veiculo" id="grupo_veiculo" class="form-select" required>
+                <option value="">Selecione...</option>
+                {% for grupo in grupos %}
+                  <option value="{{grupo.id}}">{{grupo.descricao}}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          <input type="submit" value="Cadastrar" class="btn btn-success">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

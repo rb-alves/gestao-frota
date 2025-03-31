@@ -1,0 +1,9 @@
+{% load i18n %}
+
+Olá,
+
+{% block content %}{% autoescape off %}{% blocktranslate %}Você está recebendo este e-mail porque você, ou outra pessoa, tentou acessar uma conta com o e-mail {{ email }}. No entanto, não temos nenhum registro de tal conta em nosso banco de dados.{% endblocktranslate %}
+
+{% blocktranslate %}Caso esteja com problemas com seu usuário entre em contato com o administrador do sistema.{% endblocktranslate %}
+
+{% endautoescape %}{% endblock content %}

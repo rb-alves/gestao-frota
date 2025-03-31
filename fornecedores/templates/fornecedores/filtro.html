@@ -1,0 +1,55 @@
+<!-- Modal filtro de fornecedores -->
+<div class="modal fade" id="modalFiltroFornecedor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Filtro de Fornecedores</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <form action="{% url 'lista_fornecedores' %}" method="POST">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="form-group mb-3">
+              <label for="filtro-nome">Nome</label>
+              <input type="text" class="form-control" id="filtro-nome" name="filtro-nome" placeholder="Digite o nome do fornecedor" value="{{filtro_nome}}"> 
+            </div>
+            <div class="form-group mb-3">
+              <label for="filtro-razao_social">Razão Social</label>
+              <input type="text" class="form-control" id="filtro-razao_social" name="filtro-razao_social" placeholder="Digite a razão Social" value="{{filtro_razao_social}}">
+            </div>
+            <div class="row mb-3">
+              <div class="form-group col-md-6">
+                <label for="filtro-cnpj">CNPJ</label>
+                <input type="text" class="form-control" id="filtro-cnpj" name="filtro-cnpj" placeholder="__.___.___/____-__" value="{{filtro_cnpj}}">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="filtro-telefone">Telefone</label>
+                <input type="text" class="form-control" id="filtro-telefone" name="filtro-telefone" placeholder="(__) _____-____" value="{{filtro_telefone}}">
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="form-group col-md-7">
+                <label for="filtro-email">Email</label>
+                <input type="email" class="form-control" id="filtro-email" name="filtro-email" placeholder="Insira o email do fornecedor" value="{{filtro_email}}">
+              </div>
+              <div class="form-group col-md-5">
+                <label for="filtro-especialidade">Especialidade</label>
+                <select name="filtro-especialidade" id="filtro-especialidade" class="form-select">
+                  <option value="">Selecione...</option>
+                  {% for especialidade in especialidades %}
+                    <option value="{{ especialidade.id }}" {% if especialidade.id == filtro_especialidade %}selected{% endif %}>{{especialidade.descricao}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="limparFiltros" name="limparFiltros" onclick="window.location.href='{% url 'lista_fornecedores' %}'">Limpar Filtros</button>
+            <input type="submit" value="Aplicar" class="btn btn-primary">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  

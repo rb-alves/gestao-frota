@@ -1,0 +1,114 @@
+<!-- Modal Tabela de Especialiadade dos Fornecedores -->
+<div class="modal fade espFornecedores-modal-lg" id="ModalEspFornecedores" tabindex="-1" aria-labelledby="myLargeModalEspFornecedores" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="TituloModalCentralizado">Especialidade dos Fornecedores</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <div class="d-flex mb-3">
+                  <button type="button" id="btnCadastrarEspFornecedores" class="btn btn-primary btn-sm ms-auto" onclick="openModal('#ModalEspFornecedores', '#cadEspFornecedores')">
+                      Cadastrar
+                  </button>
+              </div>
+              <table id="espFornecedores" class="table table-hover table-bordered display" style="width: 100%;">
+                  <thead>
+                      <tr>
+                          <th scope="col" class="col-md-10">Descrição</th>
+                          <th scope="col">Ações</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% if especialiadesFornecedores %}
+                          {% for especialidade in especialiadesFornecedores %}
+                              <tr>
+                                  <td>{{ especialidade.descricao }}</td>
+                                  <td>
+                                      <a href="#" class="fa-solid fa-pen-to-square fa-lg me-3" onclick="pegar_dados('{{ especialidade.id }}', '{{ especialidade.descricao }}'); openModal('#ModalEspFornecedores', '#editEspFornecedores')"></a>
+                                      <a href="#" class="fa-solid fa-trash fa-lg" onclick="pegar_dados('{{ especialidade.id }}', '{{ especialidade.descricao }}'); openModal('#ModalEspFornecedores', '#delEspFornecedores')"></a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Cadastro de Especialidade dos Fornecedores -->
+<div class="modal fade cadEspFornecedores-modal-sm" id="cadEspFornecedores" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Cadastrar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'nova_especialidade_fornecedor' %}" method="POST">
+              {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoEspFornecedor">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoEspFornecedor" name="descricaoEspFornecedor" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Edição de Especialidade dos Fornecedores -->
+<div class="modal fade editEspFornecedores-modal-sm" id="editEspFornecedores" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Atualização Cadastral</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'editar_especialidade_fornecedor' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" id="idEspFornecedorEdit" name="idEspFornecedorEdit">
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoEspFornecedorEdit">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoEspFornecedorEdit" name="descricaoEspFornecedorEdit" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Atualizar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Exclusão Especialidades dos Fornecedores -->
+<div class="modal fade" id="delEspFornecedores" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Exclusão de Especialidade</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <p>Deseja realmente excluir a especialidade <strong id="descricaoEspFornecedoresDel"></strong>?</p>
+          </div>
+          <div class="modal-footer">
+              <form action="{% url 'excluir_especialidade_fornecedor' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" id="idEspFornecedoresDel" name="idEspFornecedoresDel">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

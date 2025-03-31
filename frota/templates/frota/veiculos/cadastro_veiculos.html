@@ -1,0 +1,89 @@
+<!-- Modal Cadastro de Veiculos -->
+<div class="modal fade" id="modalCadVeiculos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cadastro de Veículos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>      
+        <form action="{% url 'novo_veiculo' %}" method="POST">
+          <div class="modal-body">
+            {% csrf_token %}            
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="placa" class="form-label">Placa</label>
+                  <input type="text" class="form-control" id="placa" name="placa" maxlength="7" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="marca" class="form-label">Marca</label>
+                  <input type="text" class="form-control" id="marca" name="marca" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="modelo" class="form-label">Modelo</label>
+                  <input type="text" class="form-control" id="modelo" name="modelo" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="ano" class="form-label">Ano</label>
+                  <input type="text" class="form-control" id="ano" name="ano" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="porte" class="form-label">Porte</label>
+                  <select name="porte" id="porte" class="form-select" required>
+                    <option value="">Selecione...</option>
+                    {% for porte_valor, porte_titulo in portes %}
+                      <option value="{{porte_valor}}">{{porte_titulo}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="combustivel" class="form-label">Combustível</label>
+                  <select name="combustivel" id="combustivel" class="form-select" required>
+                    <option value="">Selecione...</option>
+                    {% for combustivel in combustiveis %}
+                      <option value="{{combustivel.id}}">{{combustivel.descricao}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="grupo_veiculo" class="form-label">Grupo</label>
+                  <select name="grupo_veiculo" id="grupo_veiculo" class="form-select" required>
+                    <option value="">Selecione...</option>
+                    {% for grupo in grupos_veiculos %}
+                      <option value="{{grupo.id}}">{{grupo.descricao}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="chassi" class="form-label">Chassi</label>
+              <input type="text" id="chassi" name="chassi" class="form-control" required placeholder="Insira o chassi do veículo">
+            </div>
+            <div class="mb-3">
+              <label for="renavam" class="form-label">Renavam</label>
+              <input type="text" id="renavam" name="renavam" class="form-control" required placeholder="Insira o Renavam do veículo">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <input type="submit" value="Cadastrar" class="btn btn-success">
+          </div>
+        </form>
+    </div>
+  </div>
+</div>

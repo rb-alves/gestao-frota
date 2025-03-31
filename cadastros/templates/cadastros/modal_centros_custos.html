@@ -1,0 +1,114 @@
+<!-- Modal Tabela de Centros de Custos -->
+<div class="modal fade centroCusto-modal-lg" id="ModalCentroCustos" tabindex="-1" aria-labelledby="myLargeModalCentroCustos" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="TituloModalCentralizado">Centros de Custos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <div class="d-flex mb-3">
+                  <button type="button" id="btnCadastrarCentroCusto" class="btn btn-primary btn-sm ms-auto" onclick="openModal('#ModalCentroCustos', '#cadCentroCustos')">
+                      Cadastrar
+                  </button>
+              </div>
+              <table id="centros_custos" class="table table-hover table-bordered display" style="width: 100%;">
+                  <thead>
+                      <tr>
+                          <th scope="col" class="col-md-10">Descrição</th>
+                          <th scope="col">Ações</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% if centros %}
+                          {% for centro in centros %}
+                              <tr>
+                                  <td>{{centro.descricao}}</td>
+                                  <td>
+                                      <a href="#" class="fa-solid fa-pen-to-square fa-lg me-3" onclick="pegar_dados('{{centro.id}}', '{{centro.descricao}}'); openModal('#ModalCentroCustos', '#editCentroCustos')"></a>
+                                      <a href="#" class="fa-solid fa-trash fa-lg" onclick="pegar_dados('{{centro.id}}', '{{centro.descricao}}'); openModal('#ModalCentroCustos', '#delCentroCustos')"></a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Cadastro de Centros de Custos -->
+<div class="modal fade cadCentroCustos-modal-sm" id="cadCentroCustos" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Cadastrar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'novo_centro_custo' %}" method="POST">
+              {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoCentroCusto">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoCentroCusto" name="descricaoCentroCusto" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Edição de Centros de Custos -->
+<div class="modal fade editCentroCusto-modal-sm" id="editCentroCustos" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Atualização Cadastral</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'editar_centro_custo' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" id="idCentroCustoEdit" name="idCentroCustoEdit">
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaoCentroCustoEdit">Descrição</label>
+                      <input type="text" class="form-control" id="descricaoCentroCustoEdit" name="descricaoCentroCustoEdit" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Atualizar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Exclusão de Centros de Custos -->
+<div class="modal fade" id="delCentroCustos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Exclusão de Centro de Custo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <p>Deseja realmente excluir o centro de custo <strong id="descricaoCentroCustoDel"></strong>?</p>
+          </div>
+          <div class="modal-footer">
+              <form action="{% url 'excluir_centro_custo' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" id="idCentroCustoDel" name="idCentroCustoDel">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

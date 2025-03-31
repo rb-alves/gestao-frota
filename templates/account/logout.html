@@ -1,0 +1,23 @@
+{% load allauth i18n %}
+<div class="modal fade" id="modalLogout" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">{% trans "Sair" %}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{% trans 'Fechar' %}"></button>
+          </div>
+          <div class="modal-body">
+              <p>{% trans "Tem certeza de que deseja sair?" %}</p>
+          </div>
+          <div class="modal-footer">
+              {% url 'account_logout' as action_url %}
+              <form action="{{ action_url }}" method="post">
+                  {% csrf_token %}
+                  {{ redirect_field }}
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Fechar" %}</button>
+                  <button type="submit" class="btn btn-danger">{% trans "Sair" %}</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

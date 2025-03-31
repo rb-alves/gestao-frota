@@ -1,0 +1,114 @@
+<!-- Modal Tabela de Grupo de Veículos -->
+<div class="modal fade grupoVeiculos-modal-lg" id="ModalgrupoVeiculos" tabindex="-1" aria-labelledby="myLargeModalgrupoVeiculos" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="TituloModalCentralizado">Grupo de Veículos</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <div class="d-flex mb-3">
+                  <button type="button" id="btnCadastrargrupoVeiculo" class="btn btn-primary btn-sm ms-auto" onclick="openModal('#ModalgrupoVeiculos', '#cadgrupoVeiculos')">
+                      Cadastrar
+                  </button>
+              </div>
+              <table id="grupoVeiculos" class="table table-hover table-bordered display" style="width: 100%;">
+                  <thead>
+                      <tr>
+                          <th scope="col" class="col-md-10">Descrição</th>
+                          <th scope="col">Ações</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% if grupos_veiculos %}
+                          {% for grupo in grupos_veiculos %}
+                              <tr>
+                                  <td>{{ grupo.descricao }}</td>
+                                  <td>
+                                      <a href="#" class="fa-solid fa-pen-to-square fa-lg me-3" onclick="pegar_dados('{{ grupo.id }}', '{{ grupo.descricao }}'); openModal('#ModalgrupoVeiculos', '#editgrupoVeiculos')"></a>
+                                      <a href="#" class="fa-solid fa-trash fa-lg" onclick="pegar_dados('{{ grupo.id }}', '{{ grupo.descricao }}'); openModal('#ModalgrupoVeiculos', '#delgrupoVeiculos')"></a>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      {% endif %}
+                  </tbody>
+              </table>
+          </div>
+          <div class="modal-footer"></div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Cadastro de Grupos de veículos -->
+<div class="modal fade cadgrupoVeiculos-modal-sm" id="cadgrupoVeiculos" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Cadastrar</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'novo_grupo_veiculo' %}" method="POST">
+              {% csrf_token %}
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaogrupoVeiculo">Descrição</label>
+                      <input type="text" class="form-control" id="descricaogrupoVeiculo" name="descricaogrupoVeiculo" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Cadastrar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal Edição de Grupos de veículos -->
+<div class="modal fade editgrupoVeiculos-modal-sm" id="editgrupoVeiculos" tabindex="-1" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Atualização Cadastral</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <form action="{% url 'editar_grupo_veiculo' %}" method="POST">
+              {% csrf_token %}
+              <input type="hidden" id="idgrupoVeiculoEdit" name="idgrupoVeiculoEdit">
+              <div class="modal-body">
+                  <div class="form-group">
+                      <label for="descricaogrupoVeiculoEdit">Descrição</label>
+                      <input type="text" class="form-control" id="descricaogrupoVeiculoEdit" name="descricaogrupoVeiculoEdit" required>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-success btn-sm">Atualizar</button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Exclusão Grupos de Veículos -->
+<div class="modal fade" id="delgrupoVeiculos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Exclusão de Grupo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+              <p>Deseja realmente excluir o grupo <strong id="descricaogrupoVeiculoDel"></strong>?</p>
+          </div>
+          <div class="modal-footer">
+              <form action="{% url 'excluir_grupo_veiculo' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" id="idgrupoVeiculoDel" name="idgrupoVeiculoDel">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                  <button type="submit" class="btn btn-danger">Excluir</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
