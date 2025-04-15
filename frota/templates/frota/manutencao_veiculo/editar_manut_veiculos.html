@@ -1,0 +1,126 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Editar Manutenção
+{% endblock page_title %}
+
+{% block pagina_frota %}
+    active
+{% endblock pagina_frota %}
+
+{% block content %} 
+
+<h1 id="titulo-pagina" class="mt-4">Manutenção de Veículo</h1>
+
+<div id="tabelaContainer" class="painel mt-4">
+    <form action="{% url 'editar_manutencao_veiculo' manutencao.id %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="data" class="form-label">Data</label>
+                    <input type="date" class="form-control" id="data" name="data" required value="{{manutencao.data|date:'Y-m-d'}}">
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="documento" class="form-label">Documento</label>
+                    <input type="text" class="form-control" id="documento" name="documento" required placeholder="Número da nota fiscal" value="{{manutencao.documento}}">
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="fornecedor" class="form-label">Fornecedor</label>
+                    <select class="form-select" name="fornecedor" id="fornecedor" required>
+                        <option value="">Selecione...</option>
+                        {% for fornecedor in fornecedores %}
+                            <option value="{{fornecedor.id}}" {% if manutencao.fornecedor.id == fornecedor.id %}selected{% endif %}>{{fornecedor.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="centro_custo" class="form-label">Centro de Custo</label>
+                    <select class="form-select" name="centro_custo" id="centro_custo" required>
+                        <option value="">Selecione...</option>
+                        {% for centro in centros %}
+                            <option value="{{centro.id}}" {% if manutencao.centro_custo.id == centro.id %}selected{% endif %}>{{centro.descricao}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo</label>
+                    <select class="form-select" name="tipo" id="tipo" required>
+                        <option value="">Selecione...</option>
+                        {% for tipo in tipos %}
+                            <option value="{{tipo.id}}" {% if manutencao.tipo.id == tipo.id %}selected{% endif %}>{{tipo.descricao}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="causa" class="form-label">Causa</label>
+                    <select class="form-select" name="causa" id="causa" required>
+                        <option value="">Selecione...</option>
+                        {% for causa in causas %}
+                            <option value="{{causa.id}}" {% if manutencao.causa.id == causa.id %}selected{% endif %}>{{causa.descricao}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="valor" class="form-label">Valor</label>
+                    <input type="text" class="form-control" id="valorManutVeiculo" name="valorManutVeiculo" required value="{{manutencao.valor}}">
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição do Serviço</label>
+            <input type="text" class="form-control" id="descricao" name="descricao" required placeholder="Descreva quais serviços foram realizados no veículo" value="{{manutencao.descricao}}">
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="motorista" class="form-label">Motorista</label>
+                    <select class="form-select" id="motorista" name="motorista" required>
+                        <option value="">Selecione...</option>
+                        {% for colaborador in colaboradores %}
+                            <option value="{{colaborador.id}}" {% if manutencao.colaborador.id == colaborador.id %}selected{% endif %}>{{colaborador.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="veiculo" class="form-label">Veículo</label>
+                    <select class="form-select" id="veiculo" name="veiculo" required>
+                        {% for veiculo in veiculos %}
+                            <option value="{{veiculo.id}}" {% if manutencao.veiculo.id == veiculo.id %}selected{% endif %}>{{veiculo.placa}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a href="{% url 'lista_manutencoes_veiculos' %}" class="btn btn-secondary me-2">Voltar</a>
+            <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalExcluir" onclick="dados_manutVeiculo_del('{{manutencao.id}}', '{{manutencao.veiculo}}', '{{manutencao.documento}}')">Excluir</button>
+            <input type="submit" value="Atualizar Cadastro" class="btn btn-primary">
+        </div>
+    </form>        
+</div>
+
+<div>
+    {% include "frota/manutencao_veiculo/excluir_manut_veiculos.html" %}
+</div>
+
+{% endblock content %}

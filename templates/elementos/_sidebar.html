@@ -11,6 +11,15 @@
   </div>
 </div>
 <ul class="sidebar-nav">
+    {% if request.user.is_superuser %}
+        <li class="sidebar-item">
+            <a href="/admin/" class="sidebar-link">
+                <i class="fa-solid fa-user-tie fa-2xl"></i>
+                <span>Administrador</span>
+            </a>
+        </li> 
+    {% endif %}
+ 
     <li class="sidebar-item">
         <a href="{% url 'lista_cadastros' %}" class="sidebar-link">
             <i class="fa-solid fa-gears"></i>
@@ -43,7 +52,7 @@
                 <a href="{% url 'lista_maquinas' %}" class="sidebar-link">Máquinas</a>
             </li>
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">Manutenção de Veículos</a>
+                <a href="{% url 'lista_manutencoes_veiculos' %}" class="sidebar-link">Manutenção de Veículos</a>
             </li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link">Manutenção de Máquinas</a>

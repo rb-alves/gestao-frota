@@ -7,6 +7,7 @@ urlpatterns = [
     # Url Admin
     path("admin/", admin.site.urls),
 
+
     # Url Home
     path("", include("home.urls")),
 

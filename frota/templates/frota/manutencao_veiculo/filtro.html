@@ -1,0 +1,127 @@
+<div class="modal fade FiltroManutVeiculos-modal-lg" tabindex="-1" aria-labelledby="myLargeModalCadManutVeiculos" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="CadManutVeiculosTitulo">Filtro de Manutenções</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <form action="{% url 'lista_manutencoes_veiculos' %}" method="POST">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-data_inicial" class="form-label">Data Inicial</label>
+                  <input type="date" class="form-control" id="filtro-data_inicial" name="filtro-data_inicial" value="{{filtro_data_inicial}}">
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-data_final" class="form-label">Data Final</label>
+                  <input type="date" class="form-control" id="filtro-data_final" name="filtro-data_final" value="{{filtro_data_final}}">
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-documento" class="form-label">Documento</label>
+                  <input type="text" class="form-control" id="filtro-documento" name="filtro-documento"  placeholder="Número da NF" value="{{filtro_documento}}">
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-fornecedor" class="form-label">Fornecedor</label>
+                  <select class="form-select" name="filtro-fornecedor" id="filtro-fornecedor" >
+                    <option value="">Todos</option>
+                    {% for fornecedor in fornecedores %}
+                      <option value="{{fornecedor.id}}" {% if filtro_fornecedor == fornecedor.id %}selected{% endif %}>{{fornecedor.nome}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+  
+            <div class="row">
+
+             <div class="col">
+                <div class="mb-3">
+                    <label for="filtro-centro_custo" class="form-label">Centro de Custo</label>
+                    <select class="form-select" name="filtro-centro_custo" id="filtro-centro_custo" >
+                    <option value="">Todos</option>
+                    {% for centro in centros %}
+                        <option value="{{centro.id}}" {% if filtro_centro_custo == centro.id %}selected{% endif %}>{{centro.descricao}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+              </div> 
+
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-tipo" class="form-label">Tipo</label>
+                  <select class="form-select" name="filtro-tipo" id="filtro-tipo" >
+                    <option value="">Todos</option>
+                    {% for tipo in tipos %}
+                      <option value="{{tipo.id}}" {% if filtro_tipo == tipo.id %}selected{% endif %}>{{tipo.descricao}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-causa" class="form-label">Causa</label>
+                  <select class="form-select" name="filtro-causa" id="filtro-causa" >
+                    <option value="">Todos</option>
+                    {% for causa in causas %}
+                      <option value="{{causa.id}}" {% if filtro_causa == causa.id %}selected{% endif %}>{{causa.descricao}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-valorManutVeiculo" class="form-label">Valor</label>
+                  <input type="text" class="form-control" id="filtro-valorManutVeiculo" name="filtro-valorManutVeiculo" value="{{filtro_valor}}">
+                </div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="filtro-descricao" class="form-label">Descrição do Serviço</label>
+              <input type="text" class="form-control" id="filtro-descricao" name="filtro-descricao"  placeholder="Descreva quais serviços foram realizados no veículo" value="{{filtro_descricao}}">
+            </div>
+              
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-motorista" class="form-label">Motorista</label>
+                  <select class="form-select" id="filtro-motorista" name="filtro-motorista">
+                    <option value="">Todos</option>
+                    {% for colaborador in colaboradores %}
+                      <option value="{{colaborador.id}}" {% if filtro_colaborador == colaborador.id %}selected{% endif %}>{{colaborador.nome}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="filtro-veiculoManutCad" class="form-label">Veículo</label>
+                  <select class="form-select" id="filtro-veiculoManutCad" name="filtro-veiculoManutCad">
+                    <option value="">Todos</option>
+                    {% for veiculo in veiculos %}
+                      <option value="{{veiculo.id}}" {% if filtro_veiculo == veiculo.id %}selected{% endif %}>{{veiculo.placa}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="limparFiltros" name="limparFiltros" onclick="window.location.href='{% url 'lista_manutencoes_veiculos' %}'">Limpar Filtros</button>
+            <input type="submit" value="Aplicar" class="btn btn-primary">
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

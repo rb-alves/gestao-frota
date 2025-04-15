@@ -15,4 +15,10 @@ urlpatterns = [
     path("editarMaquina/<int:maquina_id>", views.editarMaquina, name="editar_maquina"),
     path("excluirMaquina/", views.excluirMaquina, name="excluir_maquina"),
 
+    # Urls Frota - Manutenções Veiculos
+    path("manutencoesVeiculos/", views.listaManutencoes, name="lista_manutencoes_veiculos"),
+    path("novaManutencaoVeiculo/", views.novaManutVeiculo, name="nova_manutencao_veiculo"),
+    path("editarManutencaoVeiculo/<int:manutencao_id>", views.editarManutVeiculo, name="editar_manutencao_veiculo"),
+    path("excluirManutencaoVeiculo/", views.excluiManutVeiculo, name="excluir_manutencao_veiculo"),
+
 ]

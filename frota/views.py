@@ -420,3 +420,260 @@ def excluirMaquina(request):
 
         # Retorna para a lista de máquinas
         return redirect("lista_maquinas")
+
+
+########################################## MANUTENÇÕES VEICULOS ####################################
+
+def listaManutencoes(request):
+    manutencoes = ManutencaoVeiculo.objects.all().order_by('-id')
+
+    # Inicializa as variáveis do filtro como vazias
+    data_inicial = ""
+    data_final = ""
+    documento = ""
+    fornecedor = ""
+    centro_custo = ""
+    tipo = ""
+    causa = ""
+    valor = ""
+    descricao = ""
+    colaborador = ""
+    veiculo = ""
+
+    # Verifica se existe uma requisição tipo POST para aplicar os filtros
+    if request.method == "POST":
+        data_inicial = request.POST.get("filtro-data_inicial", "")
+        if data_inicial:
+            manutencoes = manutencoes.filter(data__gte=data_inicial)
+
+        data_final = request.POST.get("filtro-data_final", "")
+        if data_final:
+            manutencoes = manutencoes.filter(data__lte=data_final)
+
+        documento = request.POST.get("filtro-documento", "")
+        if documento:
+            manutencoes = manutencoes.filter(documento__icontains=documento)
+
+        fornecedor = request.POST.get("filtro-fornecedor", "")
+        if fornecedor:
+            fornecedor = int(fornecedor)
+            manutencoes = manutencoes.filter(fornecedor=fornecedor)
+
+        centro_custo = request.POST.get("filtro-centro_custo", "")
+        if centro_custo:
+            centro_custo = int(centro_custo)
+            manutencoes = manutencoes.filter(centro_custo=centro_custo)
+
+        tipo = request.POST.get("filtro-tipo", "")
+        if tipo:
+            tipo = int(tipo)
+            manutencoes = manutencoes.filter(tipo=tipo)
+
+        causa = request.POST.get("filtro-causa", "")
+        if causa:
+            causa = int(causa)
+            manutencoes = manutencoes.filter(causa_id=causa)
+
+        valor = request.POST.get("filtro-valorManutVeiculo", "")
+        valor = formataValor(valor)  # Converte o valor monetário
+        if valor is not None:  # Apenas filtra se o valor for válido
+            manutencoes = manutencoes.filter(valor=valor)
+
+        descricao = request.POST.get("filtro-descricao", "")
+        if descricao:
+            manutencoes = manutencoes.filter(descricao__icontains=descricao)
+
+        colaborador = request.POST.get("filtro-motorista", "")
+        if colaborador:
+            colaborador = int(colaborador)
+            manutencoes = manutencoes.filter(colaborador=colaborador)
+
+        veiculo = request.POST.get("filtro-veiculoManutCad", "")
+        if veiculo:
+            veiculo = int(veiculo)
+            manutencoes = manutencoes.filter(veiculo=veiculo)
+
+    # Tipos de Manutenções
+    tipo_corretiva = Tipo.objects.get(descricao='Corretiva')
+    tipo_preventiva = Tipo.objects.get(descricao='Preventiva')       
+    
+    # Calcula os valores para os cards
+    valor_total = manutencoes.aggregate(total=Sum('valor'))['total'] or 0
+    valor_corretiva = manutencoes.filter(tipo=tipo_corretiva).aggregate(total=Sum('valor'))['total'] or 0
+    valor_preventiva = manutencoes.filter(tipo=tipo_preventiva).aggregate(total=Sum('valor'))['total'] or 0
+    valor_outros = manutencoes.exclude(tipo__in=[tipo_corretiva, tipo_preventiva]).aggregate(total=Sum('valor'))['total'] or 0
+
+    colaboradores = Colaborador.objects.all().filter(situacao="Ativo").filter(
+        Q(cargo__descricao="Motorista") |
+        Q(cargo__descricao="Técnico de Montagem") |
+        Q(cargo__descricao="Externo")
+        )
+    fornecedores = Fornecedor.objects.all().order_by('nome')
+    tipos = Tipo.objects.all().order_by('descricao')
+    causas = Causa.objects.all().order_by('descricao')
+    centros = CentroCusto.objects.all().order_by('descricao')
+    veiculos = Veiculo.objects.all().filter(situacao="Ativo")
+
+    return render(
+        request,
+        "frota/manutencao_veiculo/manutencoes_veiculos.html",
+        {
+            "manutencoes": manutencoes,
+            "colaboradores": colaboradores,
+            "fornecedores": fornecedores,
+            "tipos": tipos,
+            "centros": centros,
+            "causas": causas,
+            "veiculos": veiculos,
+            "filtro_data_inicial": data_inicial,
+            "filtro_data_final": data_final,
+            "filtro_documento": documento,
+            "filtro_fornecedor": fornecedor,
+            "filtro_centro_custo": centro_custo,
+            "filtro_tipo": tipo,
+            "filtro_causa": causa,
+            "filtro_valor": valor,
+            "filtro_descricao": descricao,
+            "filtro_colaborador": colaborador,
+            "filtro_veiculo": veiculo,
+            "valor_total": valor_total,
+            "valor_corretiva": valor_corretiva,
+            "valor_preventiva": valor_preventiva,
+            "valor_outros": valor_outros,
+        },
+    )
+
+
+# Cadastra uma nova manutenção
+def novaManutVeiculo(request):
+    # Verifica o metodo de envio dos dados
+    if request.method == "POST":
+        # Recupera os valores do formulário
+        data = request.POST.get('data')
+        documento = request.POST.get('documento')
+        fornecedor = request.POST.get('fornecedor')
+        centro_custo = request.POST.get('centro_custo')
+        tipo = request.POST.get('tipo')
+        causa = request.POST.get('causa')        
+        descricao = request.POST.get('descricao')
+        colaborador = request.POST.get('motorista') 
+        veiculo = request.POST.get('veiculoManutCad')
+
+        valor = formataValor(request.POST.get('valorManutVeiculo'))
+
+
+
+        # Busca os objetos nas tabelas pelos IDs enviados pelo formulário
+        fornecedor = Fornecedor.objects.get(id=fornecedor)
+        centro_custo = CentroCusto.objects.get(id=centro_custo)
+        tipo = Tipo.objects.get(id=tipo)
+        causa = Causa.objects.get(id=causa)
+        colaborador = Colaborador.objects.get(id=colaborador)
+        veiculo = Veiculo.objects.get(id=veiculo)
+
+        try:
+            cadastrar_manutencao = ManutencaoVeiculo(
+                data=data,
+                documento=documento,
+                fornecedor=fornecedor,
+                centro_custo=centro_custo,
+                tipo=tipo,
+                causa=causa,
+                valor=valor,
+                colaborador=colaborador,
+                veiculo=veiculo,
+                descricao=descricao
+            )
+
+            cadastrar_manutencao.save()
+            messages.success(request, "Manutenção cadastrada com sucesso!")
+
+        except Exception as e:
+            messages.error(request, f"Erro ao cadastrar a manutenção: {str(e)}")
+
+
+        return redirect("lista_manutencoes_veiculos")
+    
+# Edita uma manutenção no banco de dados
+def editarManutVeiculo(request, manutencao_id):
+    # Carrega os valores para os inputs de edição
+    manutencao = get_object_or_404(ManutencaoVeiculo, pk=manutencao_id)
+    colaboradores = Colaborador.objects.all().filter(situacao="Ativo").filter(
+    Q(cargo__descricao="Motorista") |
+    Q(cargo__descricao="Técnico de Montagem") |
+    Q(cargo__descricao="Externo")
+    )
+    fornecedores = Fornecedor.objects.all().order_by('nome')
+    tipos = Tipo.objects.all().order_by('descricao')
+    causas = Causa.objects.all().order_by('descricao')
+    centros = CentroCusto.objects.all().order_by('descricao')
+    veiculos = Veiculo.objects.all().filter(situacao="Ativo")
+
+    # Verifica se o metodo é do tipo POST
+    if request.method == "POST":
+        # Recupera os valores do formulário de edição
+        data = request.POST.get('data')
+        documento = request.POST.get('documento')
+        fornecedor = request.POST.get('fornecedor')
+        centro_custo = request.POST.get('centro_custo')
+        tipo = request.POST.get('tipo')
+        causa = request.POST.get('causa')
+        descricao = request.POST.get('descricao')
+        colaborador = request.POST.get('motorista') 
+        veiculo = request.POST.get('veiculo')
+
+        valor = formataValor(request.POST.get('valorManutVeiculo'))
+        
+
+        # Busca os objetos nas tabelas pelos IDs enviados pelo formulário
+        fornecedor = Fornecedor.objects.get(id=fornecedor)
+        centro_custo = CentroCusto.objects.get(id=centro_custo)
+        tipo = Tipo.objects.get(id=tipo)
+        causa = Causa.objects.get(id=causa)
+        colaborador = Colaborador.objects.get(id=colaborador)
+        veiculo = Veiculo.objects.get(id=veiculo)
+
+        try:
+            manutencao.data = data
+            manutencao.documento = documento
+            manutencao.fornecedor = fornecedor
+            manutencao.centro_custo = centro_custo
+            manutencao.tipo = tipo
+            manutencao.causa = causa
+            manutencao.descricao = descricao
+            manutencao.colaborador = colaborador
+            manutencao.veiculo = veiculo
+            manutencao.valor = valor
+
+            manutencao.save()
+            messages.success(request, "A manutenção atualizada com sucesso!")
+        except Exception as e:
+            messages.error(request, f"Erro ao atualizar a manutenção: {str(e)}")
+
+        return redirect("lista_manutencoes_veiculos")
+
+    return render(
+        request, 
+        "frota/manutencao_veiculo/editar_manut_veiculos.html", {"manutencao": manutencao, "colaboradores": colaboradores, "fornecedores": fornecedores, "tipos": tipos, "centros": centros, "causas": causas, "veiculos": veiculos})
+
+
+# Exclui uma manutenção
+def excluiManutVeiculo(request):
+    # Verifica se a requisição é do tipo POST
+    if request.method == "POST":
+        # Recupera o id enviado pelo formulário
+        manutencao_id = request.POST.get('idManutencao')
+        # Busca na tabela de manutenções um ID igual ao ID enviado pelo modal
+        manutencao = get_object_or_404(ManutencaoVeiculo, pk=manutencao_id)
+
+        # Tenta apagar a manutenção 
+        try:
+            manutencao.delete()
+            messages.success(request, "Manutenção excluída com sucesso!")
+        except Exception as e:
+            messages.error(request, f"Erro ao excluir a manutenção: {str(e)}")
+        
+        # Redireciona para a lista de manutenções
+        return redirect("lista_manutencoes_veiculos")
+
+

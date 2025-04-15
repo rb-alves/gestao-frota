@@ -1,0 +1,118 @@
+<div class="modal fade CadManutVeiculos-modal-lg" tabindex="-1" aria-labelledby="myLargeModalCadManutVeiculos" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="CadManutVeiculosTitulo">Manutenção de Veículos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <form action="{% url 'nova_manutencao_veiculo' %}" method="POST">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="data" class="form-label">Data</label>
+                  <input type="date" class="form-control" id="data" name="data" required>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="documento" class="form-label">Documento</label>
+                  <input type="text" class="form-control" id="documento" name="documento" required placeholder="Número da NF">
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="fornecedor" class="form-label">Fornecedor</label>
+                  <select class="form-select" name="fornecedor" id="fornecedor" required>
+                    <option value="">Selecione...</option>
+                    {% for fornecedor in fornecedores %}
+                      <option value="{{fornecedor.id}}">{{fornecedor.nome}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="centro_custo" class="form-label">Centro de Custo</label>
+                  <select class="form-select" name="centro_custo" id="centro_custo" required>
+                    <option value="">Selecione...</option>
+                    {% for centro in centros %}
+                      <option value="{{centro.id}}">{{centro.descricao}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="tipo" class="form-label">Tipo</label>
+                  <select class="form-select" name="tipo" id="tipo" required>
+                    <option value="">Selecione...</option>
+                    {% for tipo in tipos %}
+                      <option value="{{tipo.id}}">{{tipo.descricao}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="causa" class="form-label">Causa</label>
+                  <select class="form-select" name="causa" id="causa" required>
+                    <option value="">Selecione...</option>
+                    {% for causa in causas %}
+                      <option value="{{causa.id}}">{{causa.descricao}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="valor" class="form-label">Valor</label>
+                  <input type="text" class="form-control" id="valorManutVeiculo" name="valorManutVeiculo" required>
+                </div>
+              </div>
+            </div>
+  
+            <div class="mb-3">
+              <label for="descricao" class="form-label">Descrição do Serviço</label>
+              <input type="text" class="form-control" id="descricao" name="descricao" required placeholder="Descreva quais serviços foram realizados no veículo">
+            </div>
+              
+            <div class="row">
+              <div class="col">
+                <div class="mb-3">
+                  <label for="motorista" class="form-label">Motorista</label>
+                  <select class="form-select" id="motorista" name="motorista" required>
+                    <option value="">Selecione...</option>
+                    {% for colaborador in colaboradores %}
+                      <option value="{{colaborador.id}}">{{colaborador.nome}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="mb-3">
+                  <label for="veiculoManutCad" class="form-label">Veículo</label>
+                  <select class="form-select" id="veiculoManutCad" name="veiculoManutCad" required>
+                    <option value="">Selecione...</option>
+                    {% for veiculo in veiculos %}
+                      <option value="{{veiculo.id}}">{{veiculo.placa}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
