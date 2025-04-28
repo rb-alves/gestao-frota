@@ -1,0 +1,111 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Editar Manutenção
+{% endblock page_title %}
+
+{% block pagina_frota %}
+    active
+{% endblock pagina_frota %}
+
+{% block content %}
+
+    <h1 id="titulo-pagina" class="mt-4">Manutenção de Máquina</h1>
+
+    <div id="tabelaContainer" class="painel mt-4">
+        <form action="{% url 'editar_manutencao_maquina' manutencao.id %}" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="mb-3 col">
+                    <label for="data" class="form-label">Data</label>
+                    <input type="date" class="form-control" id="data" name="data" required value="{{manutencao.data|date:"Y-m-d"}}">
+                </div>
+                <div class="mb-3 col">
+                    <label for="documento" class="form-label">Documento</label>
+                    <input type="text" class="form-control" id="documento" name="documento" required value="{{manutencao.documento}}" placeholder="Número da NF">
+                </div>
+                <div class="mb-3 col">
+                    <label for="fornecedor" class="form-label">Fornecedor</label>
+                    <select class="form-select" name="fornecedor" id="fornecedor" required>
+                        <option value="">Selecione...</option>
+                        {% for fornecedor in fornecedores %}
+                            <option value="{{fornecedor.id}}" {% if manutencao.fornecedor.id == fornecedor.id %}selected{% endif %}>{{fornecedor.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3 col">
+                    <label for="centro_custo" class="form-label">Centro de Custo</label>
+                    <select class="form-select" name="centro_custo" id="centro_custo" required>
+                        <option value="">Selecione...</option>
+                        {% for centro in centros %}
+                            <option value="{{centro.id}}" {% if manutencao.centro_custo.id == centro.id %}selected{% endif %}>{{centro.descricao}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col">
+                    <label for="tipo" class="form-label">Tipo</label>
+                    <select class="form-select" name="tipo" id="tipo" required>
+                        <option value="">Selecione...</option>
+                        {% for tipo in tipos %}
+                            <option value="{{tipo.id}}" {% if manutencao.tipo.id == tipo.id %}selected{% endif %}>{{tipo.descricao}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3 col">
+                    <label for="causa" class="form-label">Causa</label>
+                    <select class="form-select" name="causa" id="causa" required>
+                        <option value="">Selecione...</option>
+                        {% for causa in causas %}
+                            <option value="{{causa.id}}" {% if manutencao.causa.id == causa.id %}selected{% endif %}>{{causa.descricao}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3 col">
+                    <label for="valorManutMaquina" class="form-label">Valor</label>
+                    <input type="text" class="form-control" id="valorManutMaquina" name="valorManutMaquina" required value="{{manutencao.valor}}">
+                </div>    
+            </div>
+
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição do Serviço</label>
+                <input type="text" class="form-control" id="descricao" name="descricao" required value="{{manutencao.descricao}}" placeholder="Descreva quais serviços foram realizados na máquina">
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col">
+                    <label for="maquinista" class="form-label">Maquinista</label>
+                    <select class="form-select" id="maquinista" name="maquinista">
+                        <option value="">Selecione...</option>
+                        {% for colaborador in colaboradores %}
+                            <option value="{{colaborador.id}}" {% if manutencao.colaborador.id == colaborador.id %}selected{% endif %}>{{colaborador.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3 col">
+                    <label for="maquinaManutEdit" class="form-label">Máquina</label>
+                    <select class="form-select" id="maquinaManutEdit" name="maquinaManutEdit">
+                        <option value="">Selecione...</option>
+                        {% for maquina in maquinas %}
+                            <option value="{{maquina.id}}" {% if manutencao.maquina.id == maquina.id %}selected{% endif %}>{{maquina.identificacao}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'lista_manutencoes_maquinas' %}" class="btn btn-secondary me-2">Voltar</a>
+                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalExcluir" onclick="dados_manutVeiculo_del('{{manutencao.id}}', '{{manutencao.maquina}}', '{{manutencao.documento}}')">Excluir</button>
+                <input type="submit" value="Atualizar Cadastro" class="btn btn-primary">
+            </div>
+
+        </form>        
+    </div>
+
+    <div>
+        {% include "frota/manutencao_maquina/excluir_manut_maquinas.html" %}
+    </div>
+
+{% endblock content %}

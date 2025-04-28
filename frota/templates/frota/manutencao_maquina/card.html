@@ -1,0 +1,39 @@
+{% load currency_filters_frota %}
+<div class="row">
+    <div class="col">
+      <div class="card card w-100 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Valor Total</h5>
+          <p class="card-text">{{valor_total|currency}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card card w-100 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Corretiva</h5>
+          <p class="card-text">{{valor_corretiva|currency}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card card w-100 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Preventiva</h5>
+          <p class="card-text">{{valor_preventiva|currency}}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col">
+      <div class="card card w-100 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Outros</h5>
+          <p class="card-text">{{valor_outros|currency}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>

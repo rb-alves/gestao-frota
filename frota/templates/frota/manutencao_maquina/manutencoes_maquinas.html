@@ -1,0 +1,83 @@
+{% extends "_base.html" %}
+{% load currency_filters_frota %}
+
+{% block page_title %}
+    Manutenções de Máquinas
+{% endblock page_title %}
+
+{% block pagina_frota%}
+    active
+{% endblock pagina_frota %}
+
+
+{% block content %}
+
+
+    <h1 id="titulo-pagina" class="mt-4">Manutenções de Máquinas</h1>
+
+
+    <div class="d-flex justify-content-end align-items-center gap-2 mb-2">
+    <!-- Botão de Filtrar -->
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".FiltroManutVeiculos-modal-lg">
+        <i class="fa-solid fa-filter"></i> Filtrar
+    </button>
+    <!-- Botão de Cadastrar -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".CadManutVeiculos-modal-lg">
+        Cadastrar
+    </button>
+    </div>
+
+    <div>
+        {% include "frota/manutencao_maquina/card.html" %}
+    </div>
+
+    <div id="tabelaContainer" class="table-responsive">
+        <table id="manutencoesMaquinas" class="table table-hover" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th col="col" class="data-br">Data</th>
+                    <th col="col">Documento</th>
+                    <th col="col">Fornecedor</th>
+                    <th col="col">Descrição</th>                    
+                    <th col="col">Tipo</th>
+                    <th col="col">Causa</th>
+                    <th col="col">Valor</th>                 
+                    <th col="col">Maquinista</th>
+                    <th col="col">Centro</th>
+                    <th col="col">Máquina</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if manutencoes %}
+                    {% for manutencao in manutencoes %}
+                        <tr>
+                            <td>{{manutencao.data|date:"d/m/Y"}}</td>
+                            <td>{{manutencao.documento}}</td>
+                            <td>{{manutencao.fornecedor|default_if_none:""}}</td>
+                            <td>{{manutencao.descricao}}</td>
+                            <td>{{manutencao.tipo|default_if_none:""}}</td>
+                            <td>{{manutencao.causa|default_if_none:""}}</td>
+                            <td>{{manutencao.valor|currency}}</td>
+                            <td>{{manutencao.colaborador|default_if_none:""}}</td>
+                            <td>{{manutencao.centro_custo|default_if_none:""}}</td>
+                            <td>
+                                <i class="fa-solid fa-pen-to-square fa-xs">
+                                    <a href="{% url 'editar_manutencao_maquina' manutencao.id %}">{{manutencao.maquina|default_if_none:""}}</a>
+                                </i>
+                            </td>
+                            
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        {% include "frota/manutencao_maquina/cadastro_manut_maquinas.html" %}
+    </div>
+    <div>
+        {% include "frota/manutencao_maquina/filtro.html" %}
+    </div>
+
+{% endblock content %}
