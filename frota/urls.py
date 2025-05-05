@@ -21,4 +21,10 @@ urlpatterns = [
     path("editarManutencaoVeiculo/<int:manutencao_id>", views.editarManutVeiculo, name="editar_manutencao_veiculo"),
     path("excluirManutencaoVeiculo/", views.excluiManutVeiculo, name="excluir_manutencao_veiculo"),
 
+    # Urls Frota - Manutenções Maquinas
+    path("manutencoesMaquinas/", views.listaManutencoesMaquinas, name="lista_manutencoes_maquinas"),
+    path("novaManutencaoMaquina/", views.novaManutMaquina, name="nova_manutencao_maquina"),
+    path("editarManutencaoMaquina/<int:manutencao_id>", views.editarManutMaquina, name="editar_manutencao_maquina"),
+    path("excluirManutencaoMaquina/", views.excluiManutMaquina, name="excluir_manutencao_maquina"),
+
 ]

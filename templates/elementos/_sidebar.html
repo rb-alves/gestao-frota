@@ -14,8 +14,8 @@
     {% if request.user.is_superuser %}
         <li class="sidebar-item">
             <a href="/admin/" class="sidebar-link">
-                <i class="fa-solid fa-user-tie fa-2xl"></i>
-                <span>Administrador</span>
+                <i class="fa-solid fa-desktop" id="icon-adm"></i>
+                <span>Administrativo</span>
             </a>
         </li> 
     {% endif %}
@@ -55,7 +55,7 @@
                 <a href="{% url 'lista_manutencoes_veiculos' %}" class="sidebar-link">Manutenção de Veículos</a>
             </li>
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">Manutenção de Máquinas</a>
+                <a href="{% url 'lista_manutencoes_maquinas' %}" class="sidebar-link">Manutenção de Máquinas</a>
             </li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link">Manutenção Geral</a>
