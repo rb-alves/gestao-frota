@@ -1,0 +1,34 @@
+{% load currency_filters_seguranca %}
+
+<div class="row">
+
+    <div class="col">
+      <div class="card card w-100 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Valor Total</h5>
+          <p class="card-text">{{valor_total|currency}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card card w-100 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Pendentes</h5>
+          <p class="card-text">{{total_pendentes}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card card w-100 mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Resolvidas</h5>
+          <p class="card-text">{{total_resolvidas}}</p>
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>

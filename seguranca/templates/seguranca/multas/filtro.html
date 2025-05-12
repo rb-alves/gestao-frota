@@ -1,0 +1,101 @@
+<div class="modal fade FiltroMultas-modal-lg" tabindex="-1" aria-labelledby="myLargeModalFiltroMultas" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FiltroMultasTitulo">Filtro de Multas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form action="{% url 'lista_multas' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3 col-md-2">
+                        <label for="filtro-situacao_multa" class="form-label">Situação</label>
+                        <select class="form-select" name="filtro-situacao_multa" id="filtro-situacao_multa" >
+                            <option value="">Todos</option>
+                            {% for situacao_valor, situacao_titulo in situacoes %}
+                                <option value="{{situacao_valor}}" {% if filtro_situacao == situacao_valor %}selected{% endif %}>{{situacao_titulo}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="filtro-dataInfracaoInicial" class="form-label">Data Inicial</label>
+                            <input type="date" class="form-control" id="filtro-dataInfracaoInicial" name="filtro-dataInfracaoInicial" value="{{filtro_data_inicial}}">
+                        </div>
+                        <div class="col">
+                            <label for="filtro-dataInfracaoFinal" class="form-label">Data Final</label>
+                            <input type="date" class="form-control" id="filtro-dataInfracaoFinal" name="filtro-dataInfracaoFinal" value="{{filtro_data_final}}">
+                        </div>
+                        <div class="col">
+                            <label for="filtro-infracao" class="form-label">Infração</label>
+                            <input type="text" class="form-control" id="filtro-infracao" name="filtro-infracao"  placeholder="Auto de infração da multa" value="{{filtro_infracao}}">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="filtro-gravidade" class="form-label">Gravidade</label>
+                            <select class="form-select" name="filtro-gravidade" id="filtro-gravidade" >
+                                <option value="">Todos</option>
+                                {% for gravidade_valor, gravidade_titulo in gravidades %}
+                                    <option value="{{ gravidade_valor }}" {% if filtro_gravidade == gravidade_valor %}selected{% endif %}>{{ gravidade_titulo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="filtro-valorMulta" class="form-label">Valor</label>
+                            <input type="text" class="form-control" id="filtro-valorMulta" name="filtro-valorMulta" value="{{filtro_valor_multa}}">
+                        </div>
+                        <div class="col">
+                            <label for="filtro-dataVencimentoInicial" class="form-label">Vencimento Inicial</label>
+                            <input type="date" class="form-control" id="filtro-dataVencimentoInicial" name="filtro-dataVencimentoInicial" value="{{filtro_data_vencimento_inicial}}">
+                        </div>
+                        <div class="col">
+                            <label for="filtro-dataVencimentoFinal" class="form-label">Vencimento Final</label>
+                            <input type="date" class="form-control" id="filtro-dataVencimentoFinal" name="filtro-dataVencimentoFinal" value="{{filtro_data_vencimento_final}}">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="filtro-colaborador" class="form-label">Colaborador</label>
+                            <select class="form-select" name="filtro-colaborador" id="filtro-colaborador" >
+                                <option value="">Todos</option>
+                                {% for colaborador in colaboradores %}
+                                    <option value="{{ colaborador.id }}" {% if filtro_colaborador == colaborador.id %}selected{% endif %}>{{ colaborador.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="filtro-veiculo" class="form-label">Veículo</label>
+                            <select class="form-select" name="filtro-veiculo" id="filtro-veiculo" >
+                                <option value="">Todos</option>
+                                {% for veiculo in veiculos %}
+                                    <option value="{{ veiculo.id }}" {% if filtro_veiculo == veiculo.id %}selected{% endif %}>{{ veiculo.placa }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="filtro-centro_custo" class="form-label">Centro</label>
+                            <select class="form-select" name="filtro-centro_custo" id="filtro-centro_custo" >
+                                <option value="">Todos</option>
+                                {% for centro in centros %}
+                                    <option value="{{ centro.id }}" {% if filtro_centro_custo == centro.id %}selected{% endif %}>{{ centro.descricao }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="filtro-descricao" class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="filtro-descricao" name="filtro-descricao"  placeholder="Descreva o motivo da multa" value="{{filtro_descricao}}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="limparFiltros" name="limparFiltros" onclick="window.location.href='{% url 'lista_multas' %}'">Limpar Filtros</button>
+                    <input type="submit" value="Aplicar" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

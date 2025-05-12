@@ -1,0 +1,83 @@
+{% extends "_base.html" %}
+{% load currency_filters_seguranca %}
+
+{% block page_title %}
+    Multas
+{% endblock page_title %}
+
+{% block pagina_frota %}
+    active
+{% endblock pagina_frota %}
+
+{% block content %}
+
+    <h1 id="titulo-pagina" class="mt-4">Multas</h1>
+
+
+    <div class="d-flex justify-content-end align-items-center gap-2 mb-2">
+        <!-- Botão de Filtrar -->
+        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target=".FiltroMultas-modal-lg">
+            <i class="fa-solid fa-filter"></i> Filtrar
+        </button>
+        <!-- Botão de Cadastrar -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target=".CadMultas-modal-lg">
+            Cadastrar
+        </button>
+    </div>
+
+    <div>
+        {% include "seguranca/multas/card.html" %}
+    </div>
+
+    <div id="tabelaContainer" class="table-responsive">
+        <table id="multas" class="table table-hover" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th scope="col" class="data-br">Data</th>
+                    <th scope="col">Infração</th>
+                    <th scope="col">Gravidade</th>                    
+                    <th scope="col">Valor</th>
+                    <th scope="col" class="data-br">Vencim.</th>
+                    <th scope="col">Colaborador</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Centro</th>
+                    <th scope="col">Veículo</th>
+                    <th scope="col">Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if multas %}
+                    {% for multa in multas %}
+                        <tr>
+                            <td>{{multa.data_infracao|date:"d/m/Y"}}</td>
+                            <td>{{multa.auto_infracao}}</td>
+                            <td>{{multa.gravidade}}</td>
+                            <td>{{multa.valor|currency}}</td>
+                            <td>{{multa.data_vencimento|date:"d/m/Y"}}</td>
+                            <td>{{multa.colaborador|default_if_none:""}}</td>
+                            <td>{{multa.situacao_multa|default_if_none:""}}</td>
+                            <td>{{multa.centro_custo|default_if_none:""}}</td>
+                            <td>
+                                <i class="fa-solid fa-pen-to-square fa-xs">
+                                    <a href="{% url 'editar_multa' multa.id %}">{{multa.veiculo|default_if_none:""}}</a>
+                                </i>
+                            </td>
+                            <td>{{multa.descricao}}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        {% include "seguranca/multas/cadastro_multas.html" %}
+    </div>
+
+    <div>
+        {% include "seguranca/multas/filtro.html" %}
+    </div>
+
+
+{% endblock content %}
+

@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "fornecedores.apps.FornecedoresConfig",
     "cadastros.apps.CadastrosConfig",
     "frota.apps.FrotaConfig",
+    "seguranca.apps.SegurancaConfig"
     "home.apps.HomeConfig",
     "allauth",
     "allauth.account",

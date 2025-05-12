@@ -1,0 +1,88 @@
+<div class="modal fade CadMultas-modal-lg" tabindex="-1" aria-labelledby="myLargeModalCadMultas" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="CadManutVeiculosTitulo">Multas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form action="{% url 'nova_multa' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="dataInfracao" class="form-label">Data</label>
+                            <input type="date" class="form-control" id="dataInfracao" name="dataInfracao" required>
+                        </div>
+                        <div class="col">
+                            <label for="horaInfracao" class="form-label">Hora</label>
+                            <input type="time" class="form-control" id="horaInfracao" name="horaInfracao" required>
+                        </div>
+                        <div class="col">
+                            <label for="infracao" class="form-label">Infração</label>
+                            <input type="text" class="form-control" id="infracao" name="infracao" required placeholder="Auto de infração da multa">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="gravidade" class="form-label">Gravidade</label>
+                            <select class="form-select" name="gravidade" id="gravidade" required>
+                                <option value="">Selecione...</option>
+                                {% for gravidade_valor, gravidade_titulo in gravidades %}
+                                    <option value="{{ gravidade_valor }}">{{ gravidade_titulo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="valorMulta" class="form-label">Valor</label>
+                            <input type="text" class="form-control" id="valorMulta" name="valorMulta" required>
+                        </div>
+                        <div class="col">
+                            <label for="dataVencimento" class="form-label">Vencimento</label>
+                            <input type="date" class="form-control" id="dataVencimento" name="dataVencimento" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="colaborador" class="form-label">Colaborador</label>
+                            <select class="form-select" name="colaborador" id="colaborador" required>
+                                <option value="">Selecione...</option>
+                                {% for colaborador in colaboradores %}
+                                    <option value="{{ colaborador.id }}">{{ colaborador.nome }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="veiculo" class="form-label">Veículo</label>
+                            <select class="form-select" name="veiculo" id="veiculo" required>
+                                <option value="">Selecione...</option>
+                                {% for veiculo in veiculos %}
+                                    <option value="{{ veiculo.id }}">{{ veiculo.placa }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="centro_custo" class="form-label">Centro</label>
+                            <select class="form-select" name="centro_custo" id="centro_custo" required>
+                                <option value="">Selecione...</option>
+                                {% for centro in centros %}
+                                    <option value="{{ centro.id }}">{{ centro.descricao }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="descricao" class="form-label">Descrição</label>
+                        <input type="text" class="form-control" id="descricao" name="descricao" required placeholder="Descreva o motivo da multa">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-success">Cadastrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

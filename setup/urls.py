@@ -26,6 +26,9 @@ urlpatterns = [
     # Urls Login e Logout
     path('accounts/', include('allauth.urls')),
 
+    # Urls Segurança
+    path("", include("seguranca.urls")),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)    

@@ -1,0 +1,110 @@
+{% extends "_base.html" %}
+
+{% block page_title %}
+    Editar Multa
+{% endblock page_title %}
+
+{% block pagina_frota %}
+    active
+{% endblock pagina_frota %}
+
+{% block content %}
+
+    <h1 id="titulo-pagina" class="mt-4">Multa</h1>
+
+    <div id="tabelaContainer" class="painel mt-4">
+        <form action="{% url 'editar_multa' multa.id %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-3 col-md-2">
+                <label for="situacao_multa" class="form-label">Situação da Multa</label>
+                <select class="form-select" name="situacao_multa" id="situacao_multa" required>
+                    <option value="">Selecione...</option>
+                    {% for situacao_valor, situacao_titulo in situacoes %}
+                        <option value="{{situacao_valor}}" {% if multa.situacao_multa == situacao_valor %}selected{% endif %}>{{situacao_titulo}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="dataInfracao" class="form-label">Data</label>
+                    <input type="date" class="form-control" id="dataInfracao" name="dataInfracao" required value="{{multa.data_infracao|date:'Y-m-d'}}">
+                </div>
+                <div class="col-md-4">
+                    <label for="horaInfracao" class="form-label">Hora</label>
+                    <input type="time" class="form-control" id="horaInfracao" name="horaInfracao" required value="{{multa.hora_infracao}}">
+                </div>
+                <div class="col-md-4">
+                    <label for="infracao" class="form-label">Infração</label>
+                    <input type="text" class="form-control" id="infracao" name="infracao" required value="{{multa.auto_infracao}}" placeholder="Digite o auto de infração">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="gravidade" class="form-label">Gravidade</label>
+                    <select class="form-select" name="gravidade" id="gravidade" required>
+                        <option value="">Selecione...</option>
+                        {% for gravidade_valor, gravidade_titulo in gravidades %}
+                            <option value="{{gravidade_valor}}" {% if multa.gravidade == gravidade_valor %}selected{% endif %}>{{gravidade_titulo}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="valorMulta" class="form-label">Valor</label>
+                    <input type="text" class="form-control" id="valorMulta" name="valorMulta" required value="{{multa.valor}}">
+                </div>
+                <div class="col">
+                    <label for="dataVencimento" class="form-label">Vencimento</label>
+                    <input type="date" class="form-control" id="dataVencimento" name="dataVencimento" required value="{{multa.data_vencimento|date:'Y-m-d'}}">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="colaborador" class="form-label">Colaborador</label>
+                    <select class="form-select" name="colaborador" id="colaborador" required>
+                        <option value="">Selecione...</option>
+                        {% for colaborador in colaboradores %}
+                            <option value="{{colaborador.id}}" {% if multa.colaborador.id == colaborador.id %}selected{% endif %}>{{colaborador.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="veiculo" class="form-label">Veículo</label>
+                    <select class="form-select" name="veiculo" id="veiculo" required>
+                        <option value="">Selecione...</option>
+                        {% for veiculo in veiculos %}
+                            <option value="{{veiculo.id}}" {% if multa.veiculo.id == veiculo.id %}selected{% endif %}>{{veiculo.placa}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="centro_custo" class="form-label">Centro</label>
+                    <select class="form-select" name="centro_custo" id="centro_custo" required>
+                        <option value="">Selecione...</option>
+                        {% for centro in centros %}
+                            <option value="{{centro.id}}" {% if multa.centro_custo.id == centro.id %}selected{% endif %}>{{centro.descricao}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descrição</label>
+                <input type="text" class="form-control" id="descricao" name="descricao" required value="{{multa.descricao}}" placeholder="Descreva o motivo da multa">
+            </div>
+
+            <div class="d-flex justify-content-end mt-2">
+                <a href="{% url 'lista_multas' %}" class="btn btn-secondary me-2">Voltar</a>
+                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#modalExcluir" onclick="dados_multa_del('{{multa.id}}', '{{multa.veiculo.placa}}', '{{multa.auto_infracao}}')">Excluir</button>
+                <input type="submit" value="Atualizar Cadastro" class="btn btn-primary">
+            </div> 
+
+        </form>        
+    </div>
+
+    <div>
+        {% include "seguranca/multas/excluir_multa.html" %}
+    </div>
+
+{% endblock content %}
